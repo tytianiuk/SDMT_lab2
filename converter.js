@@ -42,6 +42,8 @@ const regExpesNesting = [
     /<i>((.*?)?<\/?(b|tt)>(.*?)?)<\/i>/,
     /<b>((.*?)?<\/?(i|tt)>(.*?)?)<\/b>/,
     /<tt>((.*?)?<\/?(b|i)>(.*?)?)<\/tt>/,
+    /<b>_(.*?)_<\/b>/,
+    /<b>`(.*?)`<\/b>/,
 ]
 
 const preData = []
@@ -81,7 +83,7 @@ const addParagraphs = (text) => {
         (paragraph) => `<p>${paragraph}</p>`,
     )
 
-    return wrappedParagraphs.join('\n')
+    return wrappedParagraphs.join('\r\n')
 }
 
 const addPre = (text, symbol) => {
