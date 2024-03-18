@@ -1,0 +1,16 @@
+{
+    "name": "sdmt_lab2",
+    "version": "1.0.0",
+    "description": "It`s the second lab of SDMT",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tytianiuk/SDMTlab2.git"
+    },
+    "author": "Tytianiuk Artem",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/tytianiuk/SDMT_lab2/issues"
+    },
+    "homepage": "https://github.com/tytianiuk/SDMT_lab2#readme"
+}
