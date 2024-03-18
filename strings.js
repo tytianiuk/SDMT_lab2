@@ -6,6 +6,7 @@ const STRINGS = {
         'Error: use "node index.js path/to/file.md --out path/to/file.html"',
     errArgs: 'Error: check number of arguments.',
     errRegExp: 'Error: invalid markdown.',
+    errInvMode: 'Error: invalid mode type',
 }
 
 module.exports = { STRINGS }

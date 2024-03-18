@@ -13,12 +13,13 @@ const main = () => {
     checkingArgs(inputFilePath, outputFlagIndex, outputFilePath)
 
     const data = readFile(inputFilePath)
-    const html = convert(data)
 
     if (outputFilePath) {
-        writeFile(outputFilePath, html)
+        const convertedData = convert(data, 'html')
+        writeFile(outputFilePath, convertedData)
     } else {
-        console.log(html)
+        const convertedData = convert(data, 'ansi')
+        console.log(convertedData)
     }
 }
 

@@ -1,27 +1,32 @@
 'use strict'
 
 const { checkingRegExpes } = require('./check')
+const { STRINGS } = require('./strings')
 
 const regExpes = [
     {
         regExp: /```(?=\r?\n)([\s\S]+?)(?<=\r?\n)```(?=\r?\n|$)/u,
-        tags: ['<pre>', '</pre>'],
+        html: { tags: ['<pre>', '</pre>'] },
+        ansi: { tags: ['\x1B[7m', '\x1B[27m'] },
         symbol: '------',
         length: 3,
     },
     {
         regExp: /\*\*(?=\S).+?(?<=\S)\*\*(?=\s|$)/u,
-        tags: ['<b>', '</b>'],
+        html: { tags: ['<b>', '</b>'] },
+        ansi: { tags: ['\x1B[1m', '\x1B[22m'] },
         length: 2,
     },
     {
         regExp: /_(?=\S).+?(?<=\S)_(?=\s|$)/u,
-        tags: ['<i>', '</i>'],
+        html: { tags: ['<i>', '</i>'] },
+        ansi: { tags: ['\x1B[3m', '\x1B[23m'] },
         length: 1,
     },
     {
         regExp: /`(?=\S)(?!`).+?(?<=\S)`(?=\s|$)/u,
-        tags: ['<tt>', '</tt>'],
+        html: { tags: ['<tt>', '</tt>'] },
+        ansi: { tags: ['\x1B[7m', '\x1B[27m'] },
         length: 1,
     },
 ]
@@ -48,19 +53,26 @@ const regExpesNesting = [
 
 const preData = []
 
-const convert = (markdownText) => {
+const modes = ['html', 'ansi']
+
+const convert = (markdownText, mode) => {
     for (const regExp of regExpes) {
+        checkMode(mode)
         let textPart
         while ((textPart = markdownText.match(regExp.regExp)) != null) {
             const indexStart = textPart.index + regExp.length
             const indexEnd = textPart.index + textPart[0].length - regExp.length
             const formatedPart =
-                regExp.tags[0] +
+                regExp[mode].tags[0] +
                 markdownText.slice(indexStart, indexEnd) +
-                regExp.tags[1]
+                regExp[mode].tags[1]
 
             if (regExp.length === 3) {
-                preData.push(formatedPart)
+                mode === 'html'
+                    ? preData.push(formatedPart)
+                    : preData.push(
+                          formatedPart.replace('\r\n\x1B[27m', '\x1B[27m'),
+                      )
                 markdownText = markdownText.replace(
                     regExp.regExp,
                     regExp.symbol,
@@ -73,7 +85,10 @@ const convert = (markdownText) => {
 
     checkingRegExpes(regExpesErr, markdownText)
     checkingRegExpes(regExpesNesting, markdownText)
-    return addParagraphs(addPre(markdownText, '------'))
+    markdownText = addPre(markdownText, '------')
+    console.log(preData)
+    if (mode === 'html') return addParagraphs(markdownText)
+    return markdownText
 }
 
 const addParagraphs = (text) => {
@@ -91,6 +106,13 @@ const addPre = (text, symbol) => {
         text = text.replace(symbol, tag)
     }
     return text
+}
+
+const checkMode = (mode) => {
+    if (!modes.includes(mode)) {
+        const err = new Error(STRINGS.errInvMode)
+        throw err
+    }
 }
 
 module.exports = { convert }
