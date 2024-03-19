@@ -49,6 +49,12 @@ The program has 2 options for use, we specify the path to the file with the Mark
     ```
 > **NOTE:** if the `--format=` flag is present, its format is always used. If it is not present, but '--out=' is present, then HTML is used.
 
+# Testing
+
+You can run the tests with the command:
+```bash
+    npm test
+```
 
 # [Revert commit](https://github.com/tytianiuk/SDMT_lab2/commit/b1fc96fe60984b1a39e67afdead19519dbd6a6ea)
 # [Failed tests](https://github.com/tytianiuk/SDMT_lab2/commit/89c63bbfc8d2a45a1535638ff2cd49f529e40de8)
