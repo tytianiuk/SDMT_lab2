@@ -86,7 +86,7 @@ const convert = (markdownText, mode) => {
     checkingRegExpes(regExpesErr, markdownText)
     checkingRegExpes(regExpesNesting, markdownText)
     if (mode === 'html') return addPre(addParagraphs(markdownText), '------')
-    return markdownText
+    return addPre(markdownText, '------')
 }
 
 const addParagraphs = (text) => {
