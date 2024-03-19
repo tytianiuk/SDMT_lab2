@@ -25,6 +25,4 @@ const checkingFormat = (outFile, mode) => {
     }
 }
 
-const unnecessaryСommit = () => {}
-
 module.exports = { checkingFormat, checkingRegExpes }
