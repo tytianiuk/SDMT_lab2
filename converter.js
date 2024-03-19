@@ -86,7 +86,6 @@ const convert = (markdownText, mode) => {
     checkingRegExpes(regExpesErr, markdownText)
     checkingRegExpes(regExpesNesting, markdownText)
     markdownText = addPre(markdownText, '------')
-    console.log(preData)
     if (mode === 'html') return addParagraphs(markdownText)
     return markdownText
 }
@@ -110,6 +109,7 @@ const addPre = (text, symbol) => {
 
 const checkMode = (mode) => {
     if (!modes.includes(mode)) {
+        console.log(mode)
         const err = new Error(STRINGS.errInvMode)
         throw err
     }

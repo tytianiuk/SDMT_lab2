@@ -2,23 +2,6 @@
 
 const { STRINGS } = require('./strings')
 
-const checkingArgs = (inputFilePath, outputFlagIndex, outputFilePath) => {
-    if (process.argv.length === 3) {
-        if (!inputFilePath.includes('.md')) {
-            const err = new Error(STRINGS.errThreeArgs)
-            throw err
-        }
-    } else if (process.argv.length === 5) {
-        if (!outputFilePath.includes('.html') || outputFlagIndex !== 1) {
-            const err = new Error(STRINGS.errFiveArgs)
-            throw err
-        }
-    } else {
-        const err = new Error(STRINGS.errArgs)
-        throw err
-    }
-}
-
 const checkingRegExpes = (regExpesErr, text) => {
     for (const regExpErr of regExpesErr) {
         if (text.match(regExpErr) !== null) {
@@ -28,4 +11,18 @@ const checkingRegExpes = (regExpesErr, text) => {
     }
 }
 
-module.exports = { checkingArgs, checkingRegExpes }
+const checkingFormat = (outFile, mode) => {
+    if (outFile) {
+        if (mode) {
+            return mode
+        }
+        return 'html'
+    } else {
+        if (mode) {
+            return mode
+        }
+        return 'ansi'
+    }
+}
+
+module.exports = { checkingFormat, checkingRegExpes }
